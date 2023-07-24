@@ -1,52 +1,31 @@
 #include "sort.h"
 
 /**
- * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
- * @h: A pointer to the head of the doubly-linked list.
- * @n1: A pointer to the first node to swap.
- * @n2: The second node to swap.
+ * selection_sort - sorts an array following the selection sort algorithm
+ * @array: array to sort
+ * @size: size of the array;
  */
-void swap_nodes(listint_t **h, listint_t **n1, listint_t *n2)
+void selection_sort(int *array, size_t size)
 {
-	(*n1)->next = n2->next;
-	if (n2->next != NULL)
-		n2->next->prev = *n1;
-	n2->prev = (*n1)->prev;
-	n2->next = *n1;
-	if ((*n1)->prev != NULL)
-		(*n1)->prev->next = n2;
-	else
-		*h = n2;
-	(*n1)->prev = n2;
-	*n1 = n2->prev;
-}
+	unsigned int i, j, min;
 
+	register int tmp;
 
-
-/**
- * insertion_sort_list - sorts a doubly linked list of
- * integers in ascending order
- * @list: A pointer to the head of the doubly linked list
- *
- */
-void insertion_sort_list(listint_t **list)
-{
-	listint_t *iter, *insert, *tmp;
-
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
+	if (size < 2)
 		return;
 
-	for (iter = (*list)->next; iter != NULL; iter = tmp)
+	for (i = 0; i < size; i++)
 	{
-		tmp = iter->next;
-		insert = iter->prev;
-		while (insert != NULL && iter->n < insert->n)
+		min = i;
+		for (j = i + 1; j < size; j++)
 		{
-			swap_nodes(list, &insert, iter);
-			print_list((const listint_t *)*list);
+			if (array[j] < array[min])
+				min = j;
 		}
-
+		tmp = array[i];
+		array[i] = array[min];
+		array[min] = tmp;
+		if (i != min)
+			print_array(array, size);
 	}
-
-
 }
